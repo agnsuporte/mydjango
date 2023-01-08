@@ -1,0 +1,8 @@
+# SECURITY WARNING
+SECRET_KEY=yousecretkey
+
+# DATA BASE
+DB_NAME=youdatebase
+DB_USER=youuser
+DB_HOST=localhost
+DB_PASSWORD=youpassword
