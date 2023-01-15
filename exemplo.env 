@@ -1,3 +1,5 @@
+# Rename this file for to .env
+
 # SECURITY WARNING
 SECRET_KEY=yousecretkey
 
