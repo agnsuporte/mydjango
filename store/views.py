@@ -1,9 +1,9 @@
 """
     store URL Configuration
 """
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 
 
-# Home page
-def index_home(request):
+def index_home(request: any) -> render:
+    """Return the /templates/home.html."""
     return render(request, 'home.html')

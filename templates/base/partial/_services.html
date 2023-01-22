@@ -1,0 +1,32 @@
+{%load static%}
+
+<section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-header">
+        <h2>Nossos Serviços</h2>
+        <p>Realizado por profissioinais competentes e dedicados, para te oferecer o melhor de nós.</p>
+      </div>
+
+      <div class="row gy-4">
+
+
+        {% for category in Categorys %}
+
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-item  position-relative">
+            <div class="icon">
+              <i class="{{category.cat_icon_text}}"></i>
+            </div>
+            <h3>{{category.cat_name}}</h3>
+            <p>{{category.cat_description_text}}</p>
+            <a href="{% url 'project_category' category.id %}" class="readmore stretched-link">Ver todos em {{category.cat_name}} <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div><!-- End Service Item -->
+    
+        {% endfor %}
+
+      </div>
+
+    </div>
+  </section>

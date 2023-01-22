@@ -1,0 +1,54 @@
+{%extends 'base/index.html'%}
+
+{%block 'title'%}Product|eCommerce{%endblock%}
+
+{%block 'body'%}
+
+<!-- ======= Header ======= -->
+{% include 'base/partial/_header.html' %}
+<!-- End Header -->
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center" style="">
+        <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+            <h2>Produtos</h2>
+            <ol>
+                <li><a href="{% url 'home'%}">Home</a></li>
+                <li>Produtos</li>
+            </ol>
+        </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Our Projects Section ======= -->
+    <section id="projects" class="projects">
+        <div class="container" data-aos="fade-up">
+            <div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order">
+                <ul class="portfolio-flters" data-aos="fade-up" data-aos-delay="100">
+                    <li class="filter-active">
+                        <a class="nav-link" href="#">Todos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section><!-- End Our Projects Section -->    
+
+    <!-- ======= Services Section ======= -->
+    {% include 'base/partial/_services.html' %}
+    <!-- End Services Section -->
+
+</main>
+<!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{% include 'base/partial/_footer.html' %}
+<!-- End Footer -->
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+</a>
+
+
+{%endblock%}
+

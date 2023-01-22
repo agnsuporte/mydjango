@@ -24,3 +24,9 @@
 
     [Exemplo]
     * os.environ.get('SECRET_KEY')
+
+# Create New App
+09. ~ python3 manage.py startapp <name-app>
+
+# Create Supe User
+09. ~ python3 manage.py createsuperuser

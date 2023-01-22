@@ -27,7 +27,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index_home, name='home'),
-    # path('contact/', include('contact.urls')),
+    path('product/', include('store.product.urls')),
+    path('order/', include('store.order.urls')),
+    path('profile/', include('store.user_profile.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
     path('admin/', admin.site.urls),
 ]
 

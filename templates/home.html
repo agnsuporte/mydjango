@@ -1,17 +1,32 @@
 {%extends 'base/index.html'%}
 
-{%block 'title'%}JAObras{%endblock%}
+{%block 'title'%}eCommerce{%endblock%}
 
 {%block 'body'%}
 
+<!-- ======= Header ======= -->
+{% include 'base/partial/_header.html' %}
+<!-- End Header -->
+
+
+<!-- ======= Carousel Section ======= -->
+{% include 'base/partial/_carousel.html' %}
+<!-- End Hero Section -->
+
 <main id="main">
   
-<h2>Hello world</h2>
-
+  <!-- ======= Services Section ======= -->
+  {% include 'base/partial/_services.html' %}
+  <!-- End Services Section -->
 
 </main>
 <!-- End #main -->
 
+<!-- ======= Footer ======= -->
+{% include 'base/partial/_footer.html' %}
+<!-- End Footer -->
+
 <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
 
 {%endblock%}
