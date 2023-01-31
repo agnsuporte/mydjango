@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ValidationError
 
-from store.utils.validacpf import valida_cpf
+from utils.validacpf import valida_cpf
 
 """
 
@@ -58,7 +58,7 @@ class UserProfile(models.Model):
     )
 
     def __str__(self):
-        return self.user
+        return f'{self.user}'
 
     def clean(self) -> None:
         error_message = {}

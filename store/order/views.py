@@ -1,10 +1,25 @@
 from django.shortcuts import render
+from django.views.generic.list import ListView
+from django.views import View
 
-# Create your views here. index_order
+from store.order.models import Order
 
 
-def index_order(request: any) -> render:
-    """
-    Return order
-    """
-    return render(request, 'order/index_order.html')
+class PayOrder(ListView):
+    model = Order
+    template_name = 'order/index_order.html'
+    context_object_name = 'Orders'
+
+    def get_queryset(self):
+        query_set = super().get_queryset()
+        query_set = query_set.order_by('id')
+        print(query_set)
+        return query_set
+
+
+class OrderDetail(View):
+    pass
+
+
+class CloseOrder(View):
+    pass

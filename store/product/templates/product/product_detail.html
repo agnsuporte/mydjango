@@ -1,0 +1,98 @@
+{%extends 'base/index.html'%}
+{%block 'title'%}Detalhe|eCommece{%endblock%}
+
+{%load static%}
+
+{%block 'body'%}
+
+<!-- ======= Header ======= -->
+{% include 'base/partial/_header.html' %}
+<!-- End Header -->
+
+<main id="main" class="mt-10">
+    <!-- ======= Projet Details Section ======= -->
+    <section id="product-details" class="product-details">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="product-name">{{Product.name}}</h2>
+                {% include 'base/partial/_message.html' %}
+            </div>            
+  
+            <div class="row justify-content-between gy-4 mt-4">
+
+                <div class="col-lg-5">
+                    <div class="portfolio-description">
+                        {%if Product.image%}
+                            <img src="{{Product.image.url}}" class="img-fluid" alt="{{Product.name}}">
+                        {%else%}
+                            <img src="{% static 'img/no-image.jpg'%}" class="img-fluid" alt="{{Product.name}}">
+                        {%endif%}
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="portfolio-info">
+                        <p>{{Product.description}}</p>
+                        <div class="meta d-flex align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-currency-euro"></i> 
+                                <span 
+                                    class="ps-2 {% if Product.price_promotional%}text-decoration-line-through{% endif %}"
+                                    id="price-product">
+                                    {{Product.price}}</span>
+                            </div>
+                            
+                            <div id="show-price-promotional" class="d-flex align-items-center">
+                                    
+                                <span id="price-promotional" class="ps-2" style="display:{% if not Product.price_promotional%}none{% endif %}">
+                                    <i class="bi bi-currency-euro"></i> {{Product.price_promotional}}
+                                </span>
+                                
+                            </div>
+                        </div>                
+                        <form method="post" action="{% url 'product_add_car' %}" id="form-add-to-cart">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <select id="select-variacoes" name="vid" class="form-control form-control-lg">
+                                    {% for v in Product.variations_set.all%}
+                                        <option data-price-product="{{v.price}}" data-price-promotional="{{v.price_promotional}}" value="{{v.id}}">
+                                            {{v.name}}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="text-left mt-3">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    Adicionar ao carrinho
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row justify-content-between gy-4 mt-4">
+                <p>{{Product.description_long}}</p>
+            </div>
+  
+        </div>
+      </section><!-- End Projet Details Section -->
+</main>
+<!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{% include 'base/partial/_footer.html' %}
+<!-- End Footer -->
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+{%endblock%}
+
+{% block extrajs %}
+   {{ block.super }}
+    <script src="{% static 'js/viewpriceproduct.js'%}"></script>
+{% endblock %}

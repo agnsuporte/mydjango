@@ -1,5 +1,5 @@
-import os
 from django.db import models
+from django.utils.text import slugify
 from django.conf import settings
 from PIL import Image
 
@@ -12,22 +12,27 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
-    description_long = models.TextField()
-    slug = models.SlugField(unique=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    name = models.CharField(max_length=255, verbose_name='Produto')
+    description = models.TextField(max_length=255, verbose_name='Descrição')
+    description_long = models.TextField(verbose_name='Descrição Longa')
+    slug = models.SlugField(unique=True, blank=True,
+                            null=True, verbose_name='Slug (Branco para Auto)')
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name='Preço')
     price_promotional = models.DecimalField(
-        default=0, max_digits=10, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='pro_img/%Y/%m', blank=True, null=True)
+        default=0, max_digits=10, decimal_places=2, verbose_name='Preço Promocional')
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, verbose_name='Categoria')
+    image = models.ImageField(
+        upload_to='pro_img/%Y/%m', blank=True, null=True, verbose_name='Imagem')
     product_type = models.CharField(
         default='V',
         max_length=1,
         choices=(
-            ('V', 'Varição'),
+            ('V', 'Variação'),
             ('S', 'Simples')
-        )
+        ),
+        verbose_name='Tipo Produto'
     )
 
     def __str__(self):
@@ -47,6 +52,10 @@ class Product(models.Model):
         image.close()
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            slug = slugify(f'{self.category}-{self.name}')
+            self.slug = slug
+
         super().save(*args, **kwargs)
 
         if self.image:

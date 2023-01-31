@@ -26,8 +26,8 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('', views.index_home, name='home'),
-    path('product/', include('store.product.urls')),
+    # path('', views.index_home, name='home'),
+    path('', include('store.product.urls')),
     path('order/', include('store.order.urls')),
     path('profile/', include('store.user_profile.urls')),
     path('__debug__/', include('debug_toolbar.urls')),

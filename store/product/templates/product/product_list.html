@@ -1,0 +1,66 @@
+{%load static%}
+
+<section id="recent-blog-posts" class="recent-blog-posts">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>eCommerce</h2>
+            <p>Tudo o que você precisa em um só lugar!</p>
+        </div>
+
+        <div class="row gy-5">
+            {% for product in Products %}
+            <div class="col-xl-4 col-md-6">
+                <div class="post-item position-relative h-100" data-aos="fade-up" data-aos-delay="300">
+
+                    <div class="post-img position-relative overflow-hidden">
+                        {%if product.image%}
+                            <img src="{{product.image.url}}" class="img-fluid" alt="{{product.name}}">
+                        {% else %}
+                            <img src="{% static 'img/no-image.jpg' %}" class="img-fluid" alt="{{product.name}}">
+                        {%endif%}            
+                        <span class="post-date">{{product.category}}</span>
+                    </div>
+
+                    <div class="post-content d-flex flex-column">
+
+                        <h3 class="post-title">{{product.name}}</h3>
+
+                        <div class="meta d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-currency-euro"></i> 
+                                <span class="ps-2 {% if product.price_promotional%}text-decoration-line-through{% endif %}">
+                                    {{product.price}}</span>
+                            </div>
+                            {% if product.price_promotional%}
+                            <span class="px-3 text-black-50">/</span>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-currency-euro"></i> <span class="ps-2">{{product.price_promotional}}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <p>{{product.description}}</p>
+
+                        <hr>
+
+                        <a href="{{product.slug}}" class="readmore stretched-link">
+                            <span>Read More</span><i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+            </div><!-- End post item -->
+            {% endfor %}
+        </div>
+
+        <div class="row gy-5">
+            <div class="col">
+                {% include 'base/partial/_pagination_copy.html' %}
+            </div>
+        </div>
+
+
+    </div>
+</section>
