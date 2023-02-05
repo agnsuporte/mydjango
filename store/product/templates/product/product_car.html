@@ -12,69 +12,73 @@
 <main id="main" class="mt-5">
   <!-- ======= Projet Details Section ======= -->
   <section id="product-car" class="">
-    {% if request.session.sessionCar %}
-    <div class="section-header">
-      <h2 id="product-name">Carrinho de Compras</h2>
-      {% include 'base/partial/_message.html' %}
-      <p>Aqui as suas compras</p>
-    </div>
     <div class="container">
-      <div class="table-responsive">
-        <table class="table">
-          <tr>
-            <th class="d-none d-lg-block">Imagem</th>
-            <th>Produto</th>
-            <th></th>
-            <th>QTD.</th>
-            <th>Total</th>
-          </tr>
-
-          {% for row in car.values %}
-          <tr>
-            <td class="d-none d-lg-block">
-              <img class="" style="width: 80px;" src="{% get_media_prefix %}{{ row.image }}">
-            </td>
-            <td>
-              <a href="{% url 'product_detail' row.slug %}">
-                {{ row.product_name }}
-              </a>
-
-              <a class="ml-3" href="javascript:func()" onclick="confirmacao('{{row.variation_id}}')">
-                <i class="fas fa-times-circle text-danger" aria-hidden="true"></i>
-              </a>
-            </td>
-            <td>{{ row.variation_name }}</td>
-            <td>
-              {{ row.quantity }} x
-              {% if row.price_product_promotional %}
-              {{ row.price_product_promotional }}
-              {% else %}
-              {{ row.price_product }}
-              {% endif %}
-            </td>
-
-            {% if row.price_total_promotional %}
-            <td>
-              {{ row.price_total_promotional }}
-            </td>
-            {% else %}
-            <td>
-              {{ row.price_total }}
-            </td>
-            {% endif %}
-
-          </tr>
-          {% endfor %}
-
-        </table>
+      
+      {% if request.session.sessionCar %}
+      <div class="section-header">
+        <h2 id="product-name">Carrinho de Compras</h2>
+        <p>Aqui as suas compras</p>
+        {% include 'base/partial/_message.html' %}
       </div>
+      <div class="container">
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th class="d-none d-lg-block">Imagem</th>
+              <th>Produto</th>
+              <th></th>
+              <th>QTD.</th>
+              <th>Total</th>
+            </tr>
+
+            {% for row in car.values %}
+            <tr>
+              <td class="d-none d-lg-block">
+                <img class="" style="width: 80px;" src="{% get_media_prefix %}{{ row.image }}">
+              </td>
+              <td>
+                <a href="{% url 'product_detail' row.slug %}">
+                  {{ row.product_name }}
+                </a>
+
+                <a class="ml-3" href="javascript:func()" onclick="confirmacao('{{row.variation_id}}')">
+                  <i class="fas fa-times-circle text-danger" aria-hidden="true"></i>
+                </a>
+              </td>
+              <td>{{ row.variation_name }}</td>
+              <td>
+                {{ row.quantity }} x
+                {% if row.price_product_promotional %}
+                {{ row.price_product_promotional }}
+                {% else %}
+                {{ row.price_product }}
+                {% endif %}
+              </td>
+
+              {% if row.price_total_promotional %}
+              <td>
+                {{ row.price_total_promotional }}
+              </td>
+              {% else %}
+              <td>
+                {{ row.price_total }}
+              </td>
+              {% endif %}
+
+            </tr>
+            {% endfor %}
+
+          </table>
+        </div>
+      </div>
+      {% else %}
+      <div class="section-header">
+        <h2 id="product-name">Carrinho Vazio</h2>
+        <p>Não há nada a ser exibido.</p>
+        {% include 'base/partial/_message.html' %}
+      </div>
+      {% endif %}
     </div>
-    {% else %}
-    <div class="section-header">
-      <h2 id="product-name">Carrinho Vazio</h2>
-      <p>Não há nada a ser exibido.</p>
-    </div>
-    {% endif %}
   </section>
 </main>
 <!-- End #main -->
@@ -87,6 +91,7 @@
   <i class="bi bi-arrow-up-short"></i>
 </a>
 
+
 {%endblock%}
 
 {% block extrajs %}
@@ -98,5 +103,6 @@
       window.location.href = "{% url 'product_remove_car' %}?vid=" + id;
     }
   }
+
 </script>
 {% endblock %}

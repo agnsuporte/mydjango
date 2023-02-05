@@ -12,8 +12,8 @@
         <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
         <nav id="navbar" class="navbar">
             <ul>
-                {% if request.session.sessionCar %}
-                <li class="nav-item">
+                <li class="nav-item" id="car-show-item">
+                    {% if request.session.sessionCar %}
                     <a class="nav-link nav-cart-link" href="{% url 'product_car' %}">
                         <span class="nav-cart-count mr-1">
                             <strong>
@@ -25,8 +25,8 @@
                             <i class="fas fa-shopping-cart" style="font-size: 12pt;"></i>
                         </span>
                     </a>
+                    {% endif %}
                 </li>
-                {% endif %}
                 <li><a href="/" class="{% if request.resolver_match.url_name == 'product' %}active{% endif %}">Home</a>
                 </li>
                 <li><a href="#"

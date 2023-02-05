@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
 from django.contrib import messages
+from django.http import HttpResponse
 
 from pprint import pprint
 from store.product.models import Product, Variations
@@ -109,13 +110,17 @@ class ProductAddCar(View):
 
         self.request.session.save()
 
-        messages.success(
-            self.request,
-            f'Produto: {product_name} / {variation_name} adicionado ao seu '
-            f'carrinho {car[variation_id]["quantity"]}x.'
-        )
+        message = f'Produto: {product_name} / {variation_name} adicionado ao seu carrinho {car[variation_id]["quantity"]}x.'
+        qtde = car[variation_id]['quantity']
+        # messages.success(
+        #     self.request,
+        #     f'Produto: {product_name} / {variation_name} adicionado ao seu '
+        #     f'carrinho {car[variation_id]["quantity"]}x.'
+        # )
 
-        return redirect(http_referer)
+        success = {'message': message, 'qtde': qtde}
+        return HttpResponse(message, qtde)
+        #return redirect(http_referer)
 
 
 class ProductRemoveCar(View):
@@ -146,6 +151,8 @@ class ProductRemoveCar(View):
 
         del self.request.session['sessionCar'][variacao_id]
         self.request.session.save()
+
+
         return redirect(http_referer)
 
 

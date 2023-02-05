@@ -16,16 +16,17 @@
             <div class="section-header">
                 <h2 id="product-name">{{Product.name}}</h2>
                 {% include 'base/partial/_message.html' %}
-            </div>            
-  
+                <div id="messages" class="alert" role="alert"></div>
+            </div>
+
             <div class="row justify-content-between gy-4 mt-4">
 
                 <div class="col-lg-5">
                     <div class="portfolio-description">
                         {%if Product.image%}
-                            <img src="{{Product.image.url}}" class="img-fluid" alt="{{Product.name}}">
+                        <img src="{{Product.image.url}}" class="img-fluid" alt="{{Product.name}}">
                         {%else%}
-                            <img src="{% static 'img/no-image.jpg'%}" class="img-fluid" alt="{{Product.name}}">
+                        <img src="{% static 'img/no-image.jpg'%}" class="img-fluid" alt="{{Product.name}}">
                         {%endif%}
                     </div>
                 </div>
@@ -33,31 +34,30 @@
                 <div class="col-lg-6">
                     <div class="portfolio-info">
                         <p>{{Product.description}}</p>
-                        <div class="meta d-flex align-items-center mb-3">
+                        <div id="price" class="meta d-flex align-items-center mb-3">
                             <div class="d-flex align-items-center">
-                                <i class="bi bi-currency-euro"></i> 
-                                <span 
+                                <i class="bi bi-currency-euro"></i>
+                                <span
                                     class="ps-2 {% if Product.price_promotional%}text-decoration-line-through{% endif %}"
                                     id="price-product">
                                     {{Product.price}}</span>
                             </div>
-                            
                             <div id="show-price-promotional" class="d-flex align-items-center">
-                                    
-                                <span id="price-promotional" class="ps-2" style="display:{% if not Product.price_promotional%}none{% endif %}">
+                                <span id="price-promotional" class="ps-2"
+                                    style="display:{% if not Product.price_promotional%}none{% endif %}">
                                     <i class="bi bi-currency-euro"></i> {{Product.price_promotional}}
                                 </span>
-                                
                             </div>
-                        </div>                
+                        </div>
                         <form method="post" action="{% url 'product_add_car' %}" id="form-add-to-cart">
                             {% csrf_token %}
                             <div class="form-group">
                                 <select id="select-variacoes" name="vid" class="form-control form-control-lg">
                                     {% for v in Product.variations_set.all%}
-                                        <option data-price-product="{{v.price}}" data-price-promotional="{{v.price_promotional}}" value="{{v.id}}">
-                                            {{v.name}}
-                                        </option>
+                                    <option data-price-product="{{v.price}}"
+                                        data-price-promotional="{{v.price_promotional}}" value="{{v.id}}">
+                                        {{v.name}}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -78,9 +78,9 @@
             <div class="row justify-content-between gy-4 mt-4">
                 <p>{{Product.description_long}}</p>
             </div>
-  
+
         </div>
-      </section><!-- End Projet Details Section -->
+    </section><!-- End Projet Details Section -->
 </main>
 <!-- End #main -->
 
@@ -93,6 +93,47 @@
 {%endblock%}
 
 {% block extrajs %}
-   {{ block.super }}
-    <script src="{% static 'js/viewpriceproduct.js'%}"></script>
+{{ block.super }}
+<!-- <script type="text/javascript" src="{% static 'js/viewpriceproduct.js'%}"></script> -->
+<script type="text/javascript">
+    $(document).on('submit', '#form-add-to-cart', (e) => {
+        e.preventDefault();
+        const action = $('#form-add-to-cart').attr('action');
+        $.ajax({
+            type: 'POST',
+            url: action,
+            data: {
+                vid: $('#select-variacoes').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: (data) => {
+                $('#messages').addClass('alert-success');
+                $('#messages').html(data.message);
+                $('#messages').fadeOut(9000);
+                console.log(data);
+            },
+            error: (e) => {
+                console.log(e)
+            },
+        })
+    });
+
+    $(document).on('change', '#select-variacoes', (e) => {
+        const selectedOption = $('#select-variacoes :selected').text().trim();
+        const priceProduct = $('#select-variacoes :selected').attr('data-price-product');
+        const priceProductPromotional = $('#select-variacoes :selected').attr('data-price-promotional');
+
+        $('#product-name').html(selectedOption);
+        $('#price-product').html(priceProduct);
+
+        if (parseFloat(priceProductPromotional)) {
+            $('#price-product').addClass('text-decoration-line-through')
+            $('#price-promotional').show();
+            $('#price-promotional').html(`<i class="bi bi-currency-euro"></i> ${priceProductPromotional}`);
+        } else {
+            $('#price-promotional').hide();
+            $('#price-product').removeClass('text-decoration-line-through')
+        }
+    });
+</script>
 {% endblock %}
