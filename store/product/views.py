@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 
 from store.product.models import Product, Variations
+from utils.utils import quantity_total_car
 
 
 class ProductList(ListView):
@@ -97,7 +98,7 @@ class ProductAddCar(View):
 
         self.request.session.save()
 
-        qtde = car[variation_id]['quantity']
+        qtde = quantity_total_car(car)
 
         return JsonResponse({'message': message, 'qtde': qtde})
 

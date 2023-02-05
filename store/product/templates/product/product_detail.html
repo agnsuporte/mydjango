@@ -108,26 +108,16 @@
             },
             success: (data) => {
                 const msg = $('#messages');
-                const qtde = parseInt($('#quantity_total_product').html());
-                $('#btnsubmit').hide();
+                const qtde = parseInt(data.qtde);
+                $('#btnsubmit').prop('disabled', true);
 
                 if (msg.hide())
                     msg.show();
 
-                msg.addClass('alert-success');
-                msg.html(data.message);
-                msg.fadeOut(3500, () => {
-                    $('#btnsubmit').show();
-                    console.log('terminou')
-                });
+                msg.html(data.message).addClass('alert-success');
+                msg.fadeOut(3500, () => $('#btnsubmit').prop('disabled', false));
 
-                if (isNaN(qtde)) {
-                    $('#quantity_total_product').html('1x');
-                    return;
-                }
-
-                $('#quantity_total_product').html(`${qtde + 1}x`);
-
+                $('#quantity_total_product').html(`${qtde}x`);
             },
             error: (error) => {
                 console.log(error)
