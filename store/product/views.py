@@ -1,13 +1,14 @@
 """ App Product
 """
-from django.shortcuts import render, HttpResponse, reverse, redirect, get_object_or_404
+from django.shortcuts import (
+    render, HttpResponse, reverse, redirect, get_object_or_404
+)
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import JsonResponse
 
-from pprint import pprint
 from store.product.models import Product, Variations
 
 
@@ -34,18 +35,10 @@ class ProductDetail(DetailView):
 class ProductAddCar(View):
 
     def post(self, *args, **kwargs):
-        http_referer = self.request.META.get(
-            'HTTP_REFERER',
-            reverse('product')
-        )
         variation_id = self.request.POST.get('vid')
 
         if not variation_id:
-            messages.error(
-                self.request,
-                'Produto não existe'
-            )
-            return redirect(http_referer)
+            return JsonResponse({'message': 'Produto não existe'})
 
         variation = get_object_or_404(Variations, id=variation_id)
         variation_stock = variation.stock
@@ -64,30 +57,24 @@ class ProductAddCar(View):
         else:
             image = ''
 
-        if variation.stock_min < 1:
-            messages.error(
-                self.request,
-                'stock insuficiente'
-            )
-            return redirect(http_referer)
+        if variation.stock_min <= 1:
+            return JsonResponse({'message': 'stock insuficiente'})
 
         if not self.request.session.get('sessionCar'):
             self.request.session['sessionCar'] = {}
             self.request.session.save()
 
         car = self.request.session['sessionCar']
+        message = f'Produto: {product_name} / {variation_name} adicionado ao seu carrinho'
 
         if variation_id in car:
             quantityof_car = car[variation_id]['quantity']
             quantityof_car += 1
 
             if variation_stock < quantityof_car:
-                messages.warning(
-                    self.request,
-                    f'Estoque insuficiente para {quantityof_car}x no '
-                    f'produto "{product_name}". Adicionamos {variation_stock}x '
-                    f'no seu car.'
-                )
+                message = f'Estoque insuficiente para {quantityof_car}x no '
+                f'produto "{product_name}". Adicionamos {variation_stock}x no seu car.'
+
                 quantityof_car = variation_stock
 
             car[variation_id]['quantity'] = quantityof_car
@@ -110,17 +97,9 @@ class ProductAddCar(View):
 
         self.request.session.save()
 
-        message = f'Produto: {product_name} / {variation_name} adicionado ao seu carrinho {car[variation_id]["quantity"]}x.'
         qtde = car[variation_id]['quantity']
-        # messages.success(
-        #     self.request,
-        #     f'Produto: {product_name} / {variation_name} adicionado ao seu '
-        #     f'carrinho {car[variation_id]["quantity"]}x.'
-        # )
 
-        success = {'message': message, 'qtde': qtde}
-        return HttpResponse(message, qtde)
-        #return redirect(http_referer)
+        return JsonResponse({'message': message, 'qtde': qtde})
 
 
 class ProductRemoveCar(View):
@@ -151,7 +130,6 @@ class ProductRemoveCar(View):
 
         del self.request.session['sessionCar'][variacao_id]
         self.request.session.save()
-
 
         return redirect(http_referer)
 

@@ -1,6 +1,6 @@
 .env
 .vscode
-.tonken.git
+.token.git
 
 venv/
 media/
