@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'store.user_profile',
     # Others
     "debug_toolbar",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [

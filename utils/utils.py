@@ -1,6 +1,6 @@
 
-def formata_preco(val):
-    return f'R$ {val:.2f}'.replace('.', ',')
+def format_price(val):
+    return f'€ {val:.2f}'.replace('.', ',')
 
 
 def quantity_total_car(car):

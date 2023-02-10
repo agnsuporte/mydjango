@@ -2,6 +2,7 @@
 {%block 'title'%}Carrinho|eCommece{%endblock%}
 
 {%load static%}
+{% load agfilter %}
 
 {%block 'body'%}
 
@@ -13,7 +14,7 @@
   <!-- ======= Projet Details Section ======= -->
   <section id="product-car" class="">
     <div class="container">
-      
+
       {% if request.session.sessionCar %}
       <div class="section-header">
         <h2 id="product-name">Carrinho de Compras</h2>
@@ -49,19 +50,19 @@
               <td>
                 {{ row.quantity }} x
                 {% if row.price_product_promotional %}
-                {{ row.price_product_promotional }}
+                {{ row.price_product_promotional|format_price }}
                 {% else %}
-                {{ row.price_product }}
+                {{ row.price_product|format_price}}
                 {% endif %}
               </td>
 
               {% if row.price_total_promotional %}
               <td>
-                {{ row.price_total_promotional }}
+                {{ row.price_total_promotional|format_price }}
               </td>
               {% else %}
               <td>
-                {{ row.price_total }}
+                {{ row.price_total|format_price }}
               </td>
               {% endif %}
 

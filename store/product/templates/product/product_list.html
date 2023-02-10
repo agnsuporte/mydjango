@@ -1,4 +1,5 @@
 {%load static%}
+{% load agfilter %}
 
 <section id="recent-blog-posts" class="recent-blog-posts">
     <div class="container" data-aos="fade-up">
@@ -15,10 +16,10 @@
 
                     <div class="post-img position-relative overflow-hidden">
                         {%if product.image%}
-                            <img src="{{product.image.url}}" class="img-fluid" alt="{{product.name}}">
+                        <img src="{{product.image.url}}" class="img-fluid" alt="{{product.name}}">
                         {% else %}
-                            <img src="{% static 'img/no-image.jpg' %}" class="img-fluid" alt="{{product.name}}">
-                        {%endif%}            
+                        <img src="{% static 'img/no-image.jpg' %}" class="img-fluid" alt="{{product.name}}">
+                        {%endif%}
                         <span class="post-date">{{product.category}}</span>
                     </div>
 
@@ -28,14 +29,14 @@
 
                         <div class="meta d-flex align-items-center">
                             <div class="d-flex align-items-center">
-                                <i class="bi bi-currency-euro"></i> 
-                                <span class="ps-2 {% if product.price_promotional%}text-decoration-line-through{% endif %}">
-                                    {{product.price}}</span>
+                                <span
+                                    class="ps-2 {% if product.price_promotional%}text-decoration-line-through{% endif %}">
+                                    {{product.price|format_price}}</span>
                             </div>
                             {% if product.price_promotional%}
                             <span class="px-3 text-black-50">/</span>
                             <div class="d-flex align-items-center">
-                                <i class="bi bi-currency-euro"></i> <span class="ps-2">{{product.price_promotional}}</span>
+                                <span class="ps-2">{{product.price_promotional|format_price}}</span>
                             </div>
                             {% endif %}
                         </div>

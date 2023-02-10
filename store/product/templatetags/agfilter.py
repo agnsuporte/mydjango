@@ -5,8 +5,8 @@ register = Library()
 
 
 @register.filter
-def formata_preco(val):
-    return utils.formata_preco(val)
+def format_price(val):
+    return utils.format_price(val)
 
 
 @register.filter
