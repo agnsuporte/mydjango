@@ -22,7 +22,6 @@ class ProductList(ListView):
     def get_queryset(self):
         query_set = super().get_queryset()
         query_set = query_set.order_by('id')
-        print(query_set)
         return query_set
 
 

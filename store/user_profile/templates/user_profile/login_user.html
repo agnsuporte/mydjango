@@ -1,6 +1,4 @@
 {%extends 'base/index.html'%}
-{% load crispy_forms_tags %}
-{% load static %}
 
 {%block 'title'%}Profile|eCommerce{%endblock%}
 
@@ -11,23 +9,12 @@
 <!-- End Header -->
 
 <main id="main">
-
     <div class="container" style="margin-top: 10rem!important; margin-bottom: 3rem!important">
-
         <div class="col-md-6 mx-auto">
-            <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a {% if not logined %} class="nav-link active" {% else %} class="nav-link" {% endif %}
-                        id="btn-login" href="">Login</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a {% if logined %} class="nav-link active" {% else %} class="nav-link" {% endif %}
-                        id="btn-register" href="">Register</a>
-                </li>
-            </ul>
+            <h1>Autenticação</h1>
+            {% include 'base/partial/_message.html' %}
             <div class="tab-content">
-                <div {% if not logined %} class="tab-pane fade show active" {% else %} class="tab-pane fade" {% endif %}
-                    id="div-login">
+                <div class="tab-pane fade show active" id="div-login">
                     <form method="POST" action="{% url 'login' %}">
                         {% csrf_token %}
                         <!-- Email input -->
@@ -64,38 +51,13 @@
                         </div>
                         <!-- Register buttons -->
                         <div class="text-center">
-                            <p>Não é membro? <a href="" id="notMember">Registre-se aqui</a></p>
+                            <p>Não é membro? <a href="{% url 'create_user'%}" id="notMember">Registre-se aqui</a></p>
                         </div>
-                    </form>
-                </div>
-
-                <div {% if logined %} class="tab-pane fade show active" {% else %} class="tab-pane fade" {% endif %}
-                    id="div-register">
-                    <form method="POST" action="{% url 'create_user' %}">
-
-                        {% csrf_token %}
-                        {{ userform|crispy }}
-                        {{ profileform|crispy }}
-
-                        <!-- Checkbox -->
-                        <div class="form-check d-flex justify-content-center mb-4">
-                            <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
-                                aria-describedby="registerCheckHelpText" />
-                            <label class="form-check-label" for="registerCheck">
-                                I have read and agree to the terms
-                            </label>
-                        </div>
-
-                        <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
                     </form>
                 </div>
             </div>
         </div>
-
     </div>
-
-
 </main>
 <!-- End #main -->
 
@@ -109,9 +71,3 @@
 
 
 {%endblock 'body'%}
-
-{% block extrajs %}
-{{ block.super }}
-<script src="{% static 'js/index_profile.js'%}"></script>
-
-{% endblock %}

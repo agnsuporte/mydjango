@@ -20,7 +20,8 @@ class UserProfile(models.Model):
     cpf = models.CharField(max_length=11, verbose_name='CPF')
     address = models.CharField(max_length=50, verbose_name='Endereço')
     number = models.CharField(max_length=5, verbose_name='Número')
-    complement = models.CharField(max_length=30, verbose_name='Complemento')
+    complement = models.CharField(
+        max_length=30, verbose_name='Complemento', blank=True, null=True)
     district = models.CharField(max_length=30, verbose_name='Bairro')
     cep = models.CharField(max_length=8, verbose_name='CEP')
     city = models.CharField(max_length=30, verbose_name='Cidade')

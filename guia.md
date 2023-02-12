@@ -30,3 +30,5 @@
 
 # Create Supe User
 09. ~ python3 manage.py createsuperuser
+
+

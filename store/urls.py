@@ -22,11 +22,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-# --------------------------------------------------------------------------------------
-from . import views
 
 urlpatterns = [
-    # path('', views.index_home, name='home'),
     path('', include('store.product.urls')),
     path('order/', include('store.order.urls')),
     path('profile/', include('store.user_profile.urls')),

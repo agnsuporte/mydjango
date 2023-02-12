@@ -1,4 +1,5 @@
 {%extends 'base/index.html'%}
+{% load agfilter %}
 {%block 'title'%}Detalhe|eCommece{%endblock%}
 
 {%load static%}
@@ -36,16 +37,16 @@
                         <p>{{Product.description}}</p>
                         <div id="price" class="meta d-flex align-items-center mb-3">
                             <div class="d-flex align-items-center">
-                                <i class="bi bi-currency-euro"></i>
+
                                 <span
                                     class="ps-2 {% if Product.price_promotional%}text-decoration-line-through{% endif %}"
                                     id="price-product">
-                                    {{Product.price}}</span>
+                                    {{Product.price|format_price}}</span>
                             </div>
                             <div id="show-price-promotional" class="d-flex align-items-center">
-                                <span id="price-promotional" class="ps-2"
-                                    style="display:'{% if not Product.price_promotional%}none{% endif %}'">
-                                    <i class="bi bi-currency-euro"></i> {{Product.price_promotional}}
+                                <span id="price-promotional" class="ps-2" {% if not Product.price_promotional%}
+                                    style="display:none" {% endif %}>
+                                    {{Product.price_promotional|format_price}}
                                 </span>
                             </div>
                         </div>
@@ -131,12 +132,12 @@
         const priceProductPromotional = $('#select-variacoes :selected').attr('data-price-promotional');
 
         $('#product-name').html(selectedOption);
-        $('#price-product').html(priceProduct);
+        $('#price-product').html(`€ ${priceProduct}`);
 
         if (parseFloat(priceProductPromotional)) {
             $('#price-product').addClass('text-decoration-line-through');
             $('#price-promotional').show();
-            $('#price-promotional').html(`<i class="bi bi-currency-euro"></i> ${priceProductPromotional}`);
+            $('#price-promotional').html(`€ ${priceProductPromotional}`);
         } else {
             $('#price-promotional').hide();
             $('#price-product').removeClass('text-decoration-line-through');

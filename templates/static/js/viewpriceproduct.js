@@ -33,4 +33,5 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById("product-name").innerHTML = selectedOption.text;
     });
   }
+  
 });
